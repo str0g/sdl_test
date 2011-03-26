@@ -6,8 +6,12 @@ testrunner:
 	make -C test_runner
 libsdltest:
 	make -C libsdltest
-clean: cleanlibsdltest cleantestrunner
 
+installDependenciesForUbuntu:
+	@sudo apt-get update
+	@sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev
+	
+clean: cleanlibsdltest cleantestrunner
 cleanlibsdltest:
 	make -C libsdltest clean
 cleantestrunner:
