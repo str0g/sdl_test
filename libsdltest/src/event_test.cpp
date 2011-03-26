@@ -22,8 +22,7 @@ void event_test::EventLoop(){
 	/** Start the event loop. Keep reading events until there
 	* is an error, or the user presses a mouse button. */
 	cout<<"Staring event loop"<<endl;
-	bool Over= false;
-	while (SDL_WaitEvent(&event) != 0 and !Over) {
+	while (SDL_WaitEvent(&event) != 0 and !EventLoopOver) {
 		/** SDL_WaitEvent has filled in our event structure
 		* with the next event. We check its type field to
 		* find out what happened. */
@@ -50,7 +49,7 @@ void event_test::EventLoop(){
 				 * need to, but that tends to makeusers rather impatient. */
 			case SDL_KEYDOWN:
 				if(event.key.keysym.sym == SDLK_ESCAPE)
-					Over=true;
+					EventLoopOver=true;
 			case SDL_QUIT:
 				printf("Quit event. Bye.\n");
 				exit(0);

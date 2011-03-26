@@ -7,7 +7,7 @@
 
 #include "../include/inherit_templates.hpp"
 
-_sdl_window::_sdl_window(){
+_sdl_window::_sdl_window(): EventLoopOver(false){
 	/** Initialize SDL’s video system and check for errors. */
 	msg("Initializing SDL's video system")
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
@@ -20,8 +20,7 @@ _sdl_window::_sdl_window(){
 }
 /*
 _sdl_window::~_sdl_window(){
-	if(screen)
-		SDL_FreeSurface(screen);
+	SDL_FreeSurface(screen);
 }*/
 
 bool _sdl_window::setVideoMode(int iWidth, int iHight, int iBitColor, int iUnknown){
@@ -36,6 +35,17 @@ bool _sdl_window::setVideoMode(int iWidth, int iHight, int iBitColor, int iUnkno
 }
 
 void _sdl_window::run(){
-	setVideoMode();
+	if(setVideoMode())
+		EventLoop();
 }
 
+void _sdl_window::EventLoop(){
+	while(SDL_WaitEvent(&event) and !EventLoopOver){
+		switch(event.type){
+			case SDL_KEYDOWN:
+				if(event.key.keysym.sym == SDLK_ESCAPE)
+					EventLoopOver=true;
+				break;
+		}
+	}
+}

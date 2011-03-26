@@ -5,8 +5,8 @@
  *      Author: lukasz
  */
 
-#include <SDL/SDL.h>
-//#include <SDL_image/SDL_image.h>
+#include "SDL/SDL.h"
+#include "SDL/SDL_image.h"
 #include <stdio.h>
 #include <stdlib.h>
 struct temp{
@@ -31,16 +31,16 @@ struct temp{
 	}
 	/* Load the bitmap files. The first file was created with
 	an alpha channel, and the second was not. Notice that
-	we are now using IMG_Load instead of SDL_LoadBMP. */
-	image_with_alpha = SDL_LoadBMP("with-alpha.png");
+	we are now using IMG_Load instead of IMG_Load. */
+	//image_with_alpha = IMG_Load("with-alpha.png");
 	if (image_with_alpha == NULL) {
 		printf("%s\n", SDL_GetError());
 	}
-	image_without_alpha = SDL_LoadBMP("../data/bitmaps/noalpha.bmp");
+	//image_without_alpha = IMG_Load("../data/bitmaps/noalpha.bmp");
 	if (image_without_alpha == NULL) {
 		printf("%s\n", SDL_GetError());
 	}
-	background = SDL_LoadBMP("background.png");
+	//background = IMG_Load("background.png");
 	if (background == NULL) {
 		printf("%s\n", SDL_GetError());
 	}

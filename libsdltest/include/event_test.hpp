@@ -24,10 +24,9 @@ class event_test: public _sdl_window{
 	public:
 		event_test();
 		~event_test();
-		void run();
-		void EventLoop();
+		virtual void run();
+		virtual void EventLoop();
 	private:
-		SDL_Event event;
 };
 
 #endif /* EVENT_TEST_HPP_ */

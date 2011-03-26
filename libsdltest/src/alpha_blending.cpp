@@ -68,13 +68,13 @@ void alpha_blending::drawalpha(){
 	if(!image_with_alpha.sdlSurface)
 		return;
 	printf("alpha size %dx%d",image_with_alpha.sdlSurface->w,image_with_alpha.sdlSurface->h);
-	SDL_SetAlpha(image_with_alpha.sdlSurface, SDL_SRCALPHA, 0);
+	SDL_SetAlpha(image_with_alpha.sdlSurface, SDL_SRCALPHA, 128);
 	src.w = image_with_alpha.sdlSurface->w;
 	src.h = image_with_alpha.sdlSurface->h;
 	dest.w = src.w;
 	dest.h = src.h;
-	dest.x = 40;
-	dest.y = 50;
+	dest.x = 0;
+	dest.y = 20;
 	SDL_BlitSurface(image_with_alpha.sdlSurface, &src, screen.sdlSurface, &dest);
 }
 
@@ -90,8 +90,8 @@ void alpha_blending::drawWithOutalpha(){
 	src.h = image_without_alpha.sdlSurface->h;
 	dest.w = src.w;
 	dest.h = src.h;
-	dest.x = 180;
-	dest.y = 50;
+	dest.x = 330;
+	dest.y = 20;
 	SDL_BlitSurface(image_without_alpha.sdlSurface, &src, screen.sdlSurface, &dest);
 }
 
@@ -100,5 +100,17 @@ void alpha_blending::redraw(){
 	SDL_UpdateRect(screen.sdlSurface, 0, 0, 0, 0);
 	//SDL_Flip(screen);
 	/** Pause for a few seconds as the viewer gasps in awe. */
-	SDL_Delay(3000);
+	//SDL_Delay(3000);
+	while (SDL_WaitEvent(&event) != 0 and !EventLoopOver) {
+		switch(event.type){
+			case SDL_KEYDOWN:
+				if(event.key.keysym.sym == SDLK_ESCAPE)
+					EventLoopOver=true;
+				break;
+
+			case SDL_QUIT:
+				msg("Killed by x\n Bye.")
+				exit(0);
+		}
+	}
 }

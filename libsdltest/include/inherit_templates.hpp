@@ -21,9 +21,12 @@ class _sdl_window{
 		_sdl_window();
 		virtual bool setVideoMode(int iWidth=320,int iHight=200, int iBitColor=24,int iUnknow=SDL_HWSURFACE|SDL_DOUBLEBUF);
 		virtual void run();
+		virtual void EventLoop();
 		//virtual ~_sdl_window();
 	protected:
 		smartSurface screen;
+		SDL_Event event;
+		bool EventLoopOver;
 };
 
 #endif /* INHERIT_TEMPLATES_HPP_ */
