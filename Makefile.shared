@@ -1,0 +1,7 @@
+CXX=../g++
+../out/src/%.o: src/%.cpp
+	@mkdir -p ../out/src
+	$(CXX) $(CPPFLAGS) -c $< -o $@
+../out/include/%.o: include/%.hpp
+	@mkdir -p ../out/include
+	$(CXX) $(CPPFLAGS) $(LDFLAGS) -c $< -o $@
