@@ -50,6 +50,7 @@ void event_test::EventLoop(){
 			case SDL_KEYDOWN:
 				if(event.key.keysym.sym == SDLK_ESCAPE)
 					EventLoopOver=true;
+				break;
 			case SDL_QUIT:
 				printf("Quit event. Bye.\n");
 				exit(0);
