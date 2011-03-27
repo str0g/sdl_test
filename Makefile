@@ -11,7 +11,8 @@ installDependenciesForUbuntu:
 	@sudo apt-get update
 	@sudo apt-get install libsdl1.2-dev libsdl-image1.2-dev
 	
-clean: cleanlibsdltest cleantestrunner
+clean:
+	rm -r out
 cleanlibsdltest:
 	make -C libsdltest clean
 cleantestrunner:
