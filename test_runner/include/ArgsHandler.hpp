@@ -16,14 +16,14 @@
 using std::cout;
 using std::endl;
 
-template <class T,typename TN,class TX=int>
+template <class T,typename TN,typename TX=int>
 class ArgsHandler{
 	typedef void(T::*pTemplateVoid)();
-	typedef void(T::*pTemplateVoidARG)(TX a);
+	typedef void(T::*pTemplateVoidARG)(TX);
 	typedef void (*ptv)();
 	typedef void (*ptvTemplateARG)(TX);
 	public:
-		ArgsHandler(TN __data,
+		ArgsHandler(TN __data, ///Constructor for T::*,&T::f
 					T *p,
 					pTemplateVoid _pT,
 					bool _bDeleteAfterUse =false) :
@@ -39,9 +39,10 @@ class ArgsHandler{
 			if(!_pointerTemplate)
 				throw "ArgsHandler pointerTemplate(null) exception";
 		}
-		ArgsHandler(TN __data,
+		ArgsHandler(TN __data, ///Constructor for T::*,&T::f,arg1
 					T *p,
 					pTemplateVoidARG pTA,
+					TX arg1,
 					bool _bDeleteAfterUse =false) :
 					_data(__data),
 					_pointer(p),
@@ -49,13 +50,15 @@ class ArgsHandler{
 					_pointerTemplateARG(pTA),
 					_fpointer(NULL),
 					_fpointerTemplateARG(NULL),
+					_arg1(arg1),
 					bDeleteAfterUse(_bDeleteAfterUse){
 			if(!_pointer)
 				throw "ArgsHandler pointer(null) exception";
 			if(!_pointerTemplateARG)
 				throw "ArgsHandler pointerTemplate(null) exception";
 		}
-		ArgsHandler(TN __data,ptv p, bool _bDeleteAfterUse =false) :
+		ArgsHandler(TN __data, ///Constructor for void(*)()
+				ptv p, bool _bDeleteAfterUse =false) :
 			_data(__data),
 			_pointer(NULL),
 			_pointerTemplate(NULL),
@@ -65,12 +68,16 @@ class ArgsHandler{
 			if(!_fpointer)
 				throw "ArgsHandler fpointer(null) exception";
 		}
-		ArgsHandler(TN __data,ptvTemplateARG p, bool _bDeleteAfterUse =false) :
+		ArgsHandler(TN __data, ///Constructor for void(*)(type_arg),type_arg value
+				ptvTemplateARG p,
+				TX arg1,
+				bool _bDeleteAfterUse =false) :
 			_data(__data),
 			_pointer(NULL),
 			_pointerTemplate(NULL),
 			_fpointer(NULL),
 			_fpointerTemplateARG(p),
+			_arg1(arg1),
 			bDeleteAfterUse(_bDeleteAfterUse){
 			if(!_fpointer)
 				throw "ArgsHandler fpointer(null) exception";
@@ -86,17 +93,17 @@ class ArgsHandler{
 						(_pointer->*_pointerTemplate)();
 					else{
 						if (_pointerTemplateARG)
-							(_pointer->*_pointerTemplateARG)(5);
+							(_pointer->*_pointerTemplateARG)(_arg1);
 					}
 				else{
 					if (_fpointer)
 						_fpointer();
 				}
-				else{///FIXME ARGS
+				else{
 					if (_fpointerTemplateARG)
-						_fpointerTemplateARG(5);
+						_fpointerTemplateARG(_arg1);
 				}
-		}/*
+		}/*//FIXME
 		virtual void parseArg(TN val){
 			if(_data == val)
 				(_pointer->*_pointerTemplate)();
@@ -110,7 +117,8 @@ class ArgsHandler{
 					"] _pointerTemplateARG["<<obj._pointerTemplateARG <<
 					"] fPointer["<<obj._fpointer <<
 					"] _fpointerTemplate["<<obj._fpointerTemplateARG <<
-					"] Delete pointed obj["<< (obj.bDeleteAfterUse ? "true":"false")<<"]";
+					"] Delete pointed obj["<< (obj.bDeleteAfterUse ? "true":"false")<<
+					"] Passed _arg1["<<obj._arg1<<"]";
 			return out;
 		}
 	private:
@@ -120,6 +128,7 @@ class ArgsHandler{
 		pTemplateVoidARG _pointerTemplateARG; 	//! Pointer to class or structure method(Template)
 		ptv _fpointer;							//! Pointer to function if you dislike to use class or structure
 		ptvTemplateARG _fpointerTemplateARG;  	//! Pointer to function which has template argument
+		TX _arg1;								//! Argument which will be passed to function with argument
 		bool bDeleteAfterUse;					//! Build in memory handler if you would like to create and handle dynamic obj
 };
 

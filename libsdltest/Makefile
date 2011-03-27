@@ -1,4 +1,4 @@
-CPPFLAGS=-Wall -shared -fPIC -Wl,-export-dynamic #-O2 -Werror
+CPPFLAGS=-Wall -shared -fPIC -Wl,-export-dynamic -std=c++0x#-O2 -Werror
 include ../Makefile.shared
 LDFLAGS=
 INC_SDL=-D_GNU_SOURCE=1 -D_REENTRANT -I/usr/include/SDL #$(pkg-config sdl --cflags)

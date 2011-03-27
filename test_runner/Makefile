@@ -1,4 +1,4 @@
-CPPFLAGS=-Wall -g #-Werror 
+CPPFLAGS=-Wall -g -std=c++0x#-Werror 
 include ../Makefile.shared
 OBJSHPP=
 OBJS=../out/src/main.o ../out/src/test_runner.o ../out/src/ArgsHandler.o ../out/libsdltest.so

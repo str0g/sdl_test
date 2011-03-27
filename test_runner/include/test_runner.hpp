@@ -29,14 +29,6 @@ struct print{
 		cout<<"Sukces"<<endl;
 	}
 };
-template <class T>
-
-void runTest(){/*
-	T *obj = new T;
-	obj->run();
-	delete obj;*/
-	cout<<"hura"<<endl;
-}
 
 #define RUNNER(x)\
 	x *obj = new x;\
@@ -62,12 +54,9 @@ class test_runner{
 		void _PrintVersion();
 		template <class T>
 		void _RunTest(T);
-		void _RunTest(int =3);
 		///FIXME temporary solution
 		void _RunTestET();
 		void _RunTestABT();
-		//---
-		//void _RunTest();
 };
 
 #endif /* TEST_RUNNER_HPP_ */

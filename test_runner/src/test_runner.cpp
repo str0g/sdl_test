@@ -22,10 +22,10 @@ test_runner::~test_runner(){
 
 void test_runner::fillMapOfTest(){
 	mapOfTest.push_back(type_ArgsParser("et",this,&test_runner::_RunTestET));//0
-	//mapOfTest.push_back(type_ArgsParser("event_test",this));//1
+	mapOfTest.push_back(type_ArgsParser("event_test",this,&test_runner::_RunTestET));//1
 	mapOfTest.push_back(type_ArgsParser("abt",this,&test_runner::_RunTestABT));//2
-	//mapOfTest.push_back(type_ArgsParser("alpha_blending_test",this));//3
-	mapOfTest.push_back(type_ArgsParser("temp",this,&test_runner::_RunTest));//4
+	mapOfTest.push_back(type_ArgsParser("alpha_blending_test",this,&test_runner::_RunTestABT));//3
+	mapOfTest.push_back(type_ArgsParser("temp",this,&test_runner::_RunTest,666));//4
 	mapOfTest.push_back(type_ArgsParser("-h",this,&test_runner::_PrintHelp));//5
 	mapOfTest.push_back(type_ArgsParser("--help",this,&test_runner::_PrintHelp));//6
 	mapOfTest.push_back(type_ArgsParser("-v",this,&test_runner::_PrintVersion));//7
@@ -34,14 +34,6 @@ void test_runner::fillMapOfTest(){
 
 void test_runner::runSelectedTests(){
 	for(type_vectorConstChar::iterator it = ++list_argv.begin(); it!= list_argv.end(); it++){/*
-			if(std::strcmp(mapOfTest[0],*it) == 0 or std::strcmp(mapOfTest[1],*it)==0){
-				cout<<"it: "<<*it<<endl;
-				RUNNER(event_test)
-			}
-			if(std::strcmp(mapOfTest[2],*it) == 0 or std::strcmp(mapOfTest[3],*it)==0){
-				cout<<"it: "<<*it<<endl;
-				RUNNER(alpha_blending)
-			}
 			if(std::strcmp(mapOfTest[4],*it) == 0){
 				cout<<"it: "<<*it<<endl;
 				test(&print::printz,new print);
@@ -63,11 +55,13 @@ void test_runner::_PrintHelp(){
 void test_runner::_PrintVersion(){
 	cout<<"Version:"<<endl;
 }
+
 template <class T>
-void test_runner::_RunTest(T){
-	T *obj = new T;
-	obj->run();
-	delete obj;
+void test_runner::_RunTest(T i){
+	//T *obj = new T;
+	//obj->run();
+	//delete obj;
+	cout<<"int: "<<i<<endl;
 }
 ///FIXME temporary solution
 void test_runner::_RunTestET(){
@@ -76,10 +70,6 @@ void test_runner::_RunTestET(){
 
 void test_runner::_RunTestABT(){
 	RUNNER(alpha_blending)
-}
-//---
-void test_runner::_RunTest(int i){
-	cout<<"Test running:"<<endl;
 }
 
 void test_runner::printX(){
