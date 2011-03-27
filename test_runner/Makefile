@@ -1,7 +1,7 @@
-CPPFLAGS=-Wall -Werror -g 
+CPPFLAGS=-Wall -g #-Werror 
 include ../Makefile.shared
 OBJSHPP=
-OBJS=../out/src/main.o ../out/src/test_runner.o ../out/libsdltest.so
+OBJS=../out/src/main.o ../out/src/test_runner.o ../out/src/ArgsHandler.o ../out/libsdltest.so
 ../out/test_runner:$(OBJS)
 	$(CXX) $(CPPFLAGS) $(LDFLAGS) $^ -o $@
 clean:
