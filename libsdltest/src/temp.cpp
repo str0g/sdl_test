@@ -25,22 +25,22 @@ struct temp{
 	/* Make sure SDL_Quit gets called when the program exits! */
 	atexit(SDL_Quit);
 	/* Attempt to set a 320x200 hicolor (16-bit) video mode. */
-	screen = SDL_SetVideoMode(320, 200, 16, 0);
+	screen = SDL_SetVideoMode(700, 500, 24, 0);
 	if (screen == NULL) {
 	printf("Unable to set video mode: %s\n", SDL_GetError());
 	}
 	/* Load the bitmap files. The first file was created with
 	an alpha channel, and the second was not. Notice that
 	we are now using IMG_Load instead of IMG_Load. */
-	//image_with_alpha = IMG_Load("with-alpha.png");
+	image_with_alpha = IMG_Load("with-alpha.png");
 	if (image_with_alpha == NULL) {
 		printf("%s\n", SDL_GetError());
 	}
-	//image_without_alpha = IMG_Load("../data/bitmaps/noalpha.bmp");
+	image_without_alpha = IMG_Load("../data/bitmaps/noalpha.bmp");
 	if (image_without_alpha == NULL) {
 		printf("%s\n", SDL_GetError());
 	}
-	//background = IMG_Load("background.png");
+	background = IMG_Load("background.png");
 	if (background == NULL) {
 		printf("%s\n", SDL_GetError());
 	}
