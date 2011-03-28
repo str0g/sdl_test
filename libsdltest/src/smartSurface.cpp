@@ -19,7 +19,7 @@ smartSurface::smartSurface(SDL_Surface * _surface): sdlSurface(_surface){
 	if(!sdlSurface)
 		msg("Received empty surface");
 }
-smartSurface::smartSurface(){
+smartSurface::smartSurface(): sdlSurface(NULL){
 
 }
 smartSurface::~smartSurface(){
@@ -36,7 +36,7 @@ std::ostream &operator<<(std::ostream &out,const smartSurface &Ss){
 			" isLocked:"<<Ss.sdlSurface->locked<<
 			" MemSize:"<<sizeof(*Ss.sdlSurface)<<" bajt";
 	}else{
-		out<<"sruface(null)";
+		out<<"surface(null)";
 	}
 	return out;
 }
