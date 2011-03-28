@@ -7,41 +7,33 @@
 
 #include "../include/alpha_blending.hpp"
 
-alpha_blending::alpha_blending(){
+alpha_blending::alpha_blending():background(BACKGROUND),
+								image_with_alpha(ALPHAFILE_PNG),
+								image_without_alpha(NOALPHAFILE)
+								{
 }
 
 alpha_blending::~alpha_blending(){
-	msg(image_without_alpha)
 	msg(background)
+	msg(image_with_alpha)
+	msg(image_without_alpha)
 	msg("Bye")
 }
 
 void alpha_blending::run(){
 	cout<<"Running"<<endl;
-	if(setVideoMode(600,400,16)){
-		this->loadImages();
+	if(setVideoMode(600,400,24)){
 		this->drawBackground();
-		this->drawalpha();
-		this->drawWithOutalpha();
-		this->redraw();
-	}
-}
+		/** Draw the first image, which has an alpha
+		* channel. We must specifically enable alpha
+		* blending. */
+		this->drawAlpha(image_with_alpha.sdlSurface,0,20,128);
+		/** Draw the second image, which has no alpha
+		* channel. Instead, we will set a 50% transparency
+		* factor for the entire surface. */
+		this->drawAlpha(image_without_alpha.sdlSurface,280,200,128);
 
-void alpha_blending::loadImages(){
-	/** Load the bitmap files. The first file was created with
-	* an alpha channel, and the second was not. Notice that
-	* we are now using IMG_Load instead of SDL_LoadBMP. */
-	image_with_alpha.sdlSurface = IMG_Load(ALPHAFILE);
-	if (image_with_alpha.sdlSurface == NULL) {
-		msg(SDL_GetError())
-	}
-	image_without_alpha.sdlSurface = IMG_Load(NOALPHAFILE);
-	if (image_without_alpha.sdlSurface == NULL) {
-		msg(SDL_GetError())
-	}
-	background.sdlSurface = IMG_Load(BACKGROUND);
-	if (background.sdlSurface == NULL) {
-		msg(SDL_GetError())
+		this->redraw();
 	}
 }
 
@@ -49,7 +41,7 @@ void alpha_blending::drawBackground(){
 	/** Draw the background. */
 	if(!background.sdlSurface)
 		return;
-	printf("Background size %dx%d",background.sdlSurface->w,background.sdlSurface->h);
+	msg("Background size "<<background.sdlSurface->w<<"x"<<background.sdlSurface->h)
 	src.x = 0;
 	src.y = 0;
 	src.w = background.sdlSurface->w;
@@ -61,38 +53,19 @@ void alpha_blending::drawBackground(){
 	SDL_BlitSurface(background.sdlSurface, &src, screen.sdlSurface, &dest);
 }
 
-void alpha_blending::drawalpha(){
-	/** Draw the first image, which has an alpha
-	* channel. We must specifically enable alpha
-	* blending. */
-	if(!image_with_alpha.sdlSurface)
+void alpha_blending::drawAlpha(SDL_Surface *sdlSurface , int destx, int desty, int AlphaStrenght){
+	if(!sdlSurface){
 		return;
-	printf("alpha size %dx%d",image_with_alpha.sdlSurface->w,image_with_alpha.sdlSurface->h);
-	SDL_SetAlpha(image_with_alpha.sdlSurface, SDL_SRCALPHA, 128);
-	src.w = image_with_alpha.sdlSurface->w;
-	src.h = image_with_alpha.sdlSurface->h;
+	}
+	msg("alpha size "<<sdlSurface->w<<"x"<<sdlSurface->h);
+	SDL_SetAlpha(sdlSurface, SDL_SRCALPHA, AlphaStrenght);
+	src.w = sdlSurface->w;
+	src.h = sdlSurface->h;
 	dest.w = src.w;
 	dest.h = src.h;
-	dest.x = 0;
-	dest.y = 20;
-	SDL_BlitSurface(image_with_alpha.sdlSurface, &src, screen.sdlSurface, &dest);
-}
-
-void alpha_blending::drawWithOutalpha(){
-	/** Draw the second image, which has no alpha
-	* channel. Instead, we will set a 50% transparency
-	* factor for the entire surface. */
-	if(!image_without_alpha.sdlSurface)
-		return;
-	printf("alpha size %dx%d",image_without_alpha.sdlSurface->w,image_without_alpha.sdlSurface->h);
-	SDL_SetAlpha(image_without_alpha.sdlSurface, SDL_SRCALPHA, 128);
-	src.w = image_without_alpha.sdlSurface->w;
-	src.h = image_without_alpha.sdlSurface->h;
-	dest.w = src.w;
-	dest.h = src.h;
-	dest.x = 330;
-	dest.y = 20;
-	SDL_BlitSurface(image_without_alpha.sdlSurface, &src, screen.sdlSurface, &dest);
+	dest.x = destx;
+	dest.y = desty;
+	SDL_BlitSurface(sdlSurface, &src, screen.sdlSurface, &dest);
 }
 
 void alpha_blending::redraw(){

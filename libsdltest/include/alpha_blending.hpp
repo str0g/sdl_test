@@ -14,7 +14,6 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 
-
 #include "inherit_templates.hpp"
 #include "smartSurface.hpp"
 #include "common_dev.hpp"
@@ -22,9 +21,9 @@
 using std::cout;
 using std::endl;
 
-#define ALPHAFILE 	"../data/bitmaps/alpha.bmp"
-#define NOALPHAFILE "../data/bitmaps/noalpha.bmp"
-#define BACKGROUND 	"../data/bitmaps/background.bmp"
+#define ALPHAFILE_PNG 	"../data/bitmaps/alpha.png"
+#define NOALPHAFILE 	"../data/bitmaps/noalpha.bmp"
+#define BACKGROUND 		"../data/bitmaps/background.bmp"
 
 class alpha_blending: public _sdl_window{
 	public:
@@ -36,10 +35,8 @@ class alpha_blending: public _sdl_window{
 		smartSurface image_with_alpha;
 		smartSurface image_without_alpha;
 		SDL_Rect src, dest;
-		void loadImages();
 		void drawBackground();
-		void drawalpha();
-		void drawWithOutalpha();
+		void drawAlpha(SDL_Surface *,int,int,int);
 		void redraw();
 };
 
