@@ -20,12 +20,13 @@ smartSurface::smartSurface(SDL_Surface * _surface): sdlSurface(_surface){
 		msg("Received empty surface");
 }
 smartSurface::smartSurface(): sdlSurface(NULL){
-
+	msg("Initializing empty surface");
 }
 smartSurface::~smartSurface(){
 	SDL_FreeSurface(sdlSurface);
 }
 void smartSurface::operator=(SDL_Surface *_surface){
+	SDL_FreeSurface(sdlSurface);
 	sdlSurface =  _surface; //SDL_ConvertSurface(_surface, _surface->format, SDL_SWSURFACE);
 }
 
