@@ -13,6 +13,11 @@ test_runner::test_runner(int &argc,char **argv){
 	for (int i=0; i<argc; i++)
 		list_argv.push_back(argv[i]);
 	fillMapOfTest();
+	if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+			msg("Unable to initialize SDL: " << SDL_GetError())
+			exit(1);
+		}
+	atexit(SDL_Quit);
 }
 
 test_runner::~test_runner(){
