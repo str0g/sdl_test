@@ -1,12 +1,20 @@
 CPPFLAGS=-Wall -shared -fPIC -Wl,-export-dynamic -std=c++0x#-O2 -Werror
-include ../Makefile.shared
+
+OUTPUT_PATH := ../out
+TARGET_NAME = libsdltest.so
+TARGET := $(OUTPUT_PATH)/$(TARGET_NAME)
+OUTPUT_PATH_SRC := $(OUTPUT_PATH)/_$(TARGET_NAME)/src
+
 LDFLAGS=
-INC_SDL=-D_GNU_SOURCE=1 -D_REENTRANT -I/usr/include/SDL #$(pkg-config sdl --cflags)
-LD_SDL=-lSDL -lSDL_image #$(pkg-config sdl --libs) -lSDL_image
-OBJSHPP=
-OBJS=../out/src/event_test.o ../out/src/alpha_blending.o ../out/src/inherit_templates.o ../out/src/smartSurface.o ../out/src/common_dev.o ../out/src/temp.o
-../out/libsdltest.so:$(OBJS) $(OBJSHPP)
+INC_SDL = $(shell pkg-config sdl --cflags)
+LD_SDL = $(shell pkg-config sdl --libs) -lSDL_image
+SRCS := $(wildcard src/*.cpp)
+OBJS := $(SRCS:%.cpp=$(OUTPUT_PATH)/_$(TARGET_NAME)/%.o)
+
+include ../Makefile.shared
+
+$(TARGET):$(OBJS)
 	$(CXX) $(CPPFLAGS) $(LDFLAGS) $(INC_SDL) $(LD_SDL) $^ -o $@
 clean:
-	rm -r $(OBJS) $(OBJSHPP) ../out/libsdltest.so
-.PHONY: clean libsdltest.so
+	rm -r $(OBJS) $(OBJSHPP) $(TARGET)
+.PHONY: clean $(TARGET_NAME)
