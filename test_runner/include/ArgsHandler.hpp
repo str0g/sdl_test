@@ -16,17 +16,28 @@
 using std::cout;
 using std::endl;
 
-template <class T,typename TN,typename TX=int>
 class ArgsHandler{
+	public:
+		ArgsHandler(){}
+		virtual ~ArgsHandler(){}
+		virtual void parseArg(const char* x){}/*
+		template <typename T>
+		virtual void parsArg(const T &){}*/
+		virtual void printInformation(){}
+};
+
+template <class T,typename TN,typename TX=int>
+class ArgsHandlerImpl : public ArgsHandler{
 	typedef void(T::*pTemplateVoid)();
 	typedef void(T::*pTemplateVoidARG)(TX);
 	typedef void (*ptv)();
 	typedef void (*ptvTemplateARG)(TX);
 	public:
-		ArgsHandler(TN __data, ///Constructor for T::*,&T::f
+		ArgsHandlerImpl(TN __data, ///Constructor for T::*,&T::f
 					T *p,
 					pTemplateVoid _pT,
 					bool _bDeleteAfterUse =false) :
+					ArgsHandler(),
 					_data(__data),
 					_pointer(p),
 					_pointerTemplate(_pT),
@@ -39,11 +50,12 @@ class ArgsHandler{
 			if(!_pointerTemplate)
 				throw "ArgsHandler pointerTemplate(null) exception";
 		}
-		ArgsHandler(TN __data, ///Constructor for T::*,&T::f,arg1
+		ArgsHandlerImpl(TN __data, ///Constructor for T::*,&T::f,arg1
 					T *p,
 					pTemplateVoidARG pTA,
 					TX arg1,
 					bool _bDeleteAfterUse =false) :
+					ArgsHandler(),
 					_data(__data),
 					_pointer(p),
 					_pointerTemplate(NULL),
@@ -57,8 +69,9 @@ class ArgsHandler{
 			if(!_pointerTemplateARG)
 				throw "ArgsHandler pointerTemplate(null) exception";
 		}
-		ArgsHandler(TN __data, ///Constructor for void(*)()
+		ArgsHandlerImpl(TN __data, ///Constructor for void(*)()
 				ptv p, bool _bDeleteAfterUse =false) :
+				ArgsHandler(),
 			_data(__data),
 			_pointer(NULL),
 			_pointerTemplate(NULL),
@@ -68,10 +81,11 @@ class ArgsHandler{
 			if(!_fpointer)
 				throw "ArgsHandler fpointer(null) exception";
 		}
-		ArgsHandler(TN __data, ///Constructor for void(*)(type_arg),type_arg value
+		ArgsHandlerImpl(TN __data, ///Constructor for void(*)(type_arg),type_arg value
 				ptvTemplateARG p,
 				TX arg1,
 				bool _bDeleteAfterUse =false) :
+				ArgsHandler(),
 			_data(__data),
 			_pointer(NULL),
 			_pointerTemplate(NULL),
@@ -82,7 +96,7 @@ class ArgsHandler{
 			if(!_fpointer)
 				throw "ArgsHandler fpointer(null) exception";
 		}
-		virtual ~ArgsHandler(){
+		~ArgsHandlerImpl(){
 			if (_pointer and bDeleteAfterUse)
 				delete _pointer;
 		}
@@ -111,6 +125,15 @@ class ArgsHandler{
 		/**
 		 * Operator<< has been overload to print information about it self
 		 */
+		virtual void printInformation(){
+			cout<<_data<<"] T::Pointer["<<_pointer<<
+					"] _pointerTemplate["<<_pointerTemplate <<
+					"] _pointerTemplateARG["<<_pointerTemplateARG <<
+					"] fPointer["<<_fpointer <<
+					"] _fpointerTemplate["<<_fpointerTemplateARG <<
+					"] Delete pointed obj["<< (bDeleteAfterUse ? "true":"false")<<
+					"] Passed _arg1["<<_arg1<<"]"<<endl;
+		}/*
 		friend std::ostream &operator<<(std::ostream &out,const ArgsHandler<T,TN> &obj){
 			out <<"\t["<<obj._data<<"] T::Pointer["<<obj._pointer<<
 					"] _pointerTemplate["<<obj._pointerTemplate <<
@@ -120,7 +143,7 @@ class ArgsHandler{
 					"] Delete pointed obj["<< (obj.bDeleteAfterUse ? "true":"false")<<
 					"] Passed _arg1["<<obj._arg1<<"]";
 			return out;
-		}
+		}*/
 	private:
 		TN _data; 								//! Holding any date which is wished to be handle
 		T* _pointer;							//! Pointer to class or structure which methods will be invoked

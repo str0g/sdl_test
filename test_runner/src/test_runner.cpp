@@ -26,18 +26,20 @@ test_runner::~test_runner(){
 }
 
 void test_runner::fillMapOfTest(){
-	mapOfTest.push_back(type_ArgsParser("et",this,&test_runner::_RunTestET));//0
-	mapOfTest.push_back(type_ArgsParser("event_test",this,&test_runner::_RunTestET));//1
-	mapOfTest.push_back(type_ArgsParser("abt",this,&test_runner::_RunTestABT));//2
-	mapOfTest.push_back(type_ArgsParser("alpha_blending_test",this,&test_runner::_RunTestABT));//3
-	mapOfTest.push_back(type_ArgsParser("temp",this,&test_runner::_RunTest,666));//4
-	mapOfTest.push_back(type_ArgsParser("-h",this,&test_runner::_PrintHelp));//5
-	mapOfTest.push_back(type_ArgsParser("--help",this,&test_runner::_PrintHelp));//6
-	mapOfTest.push_back(type_ArgsParser("-v",this,&test_runner::_PrintVersion));//7
-	mapOfTest.push_back(type_ArgsParser("--version",this,&test_runner::_PrintVersion));//8
+	mapOfTest.push_back(new type_ArgsParser("et",this,&test_runner::_RunTestET));//0
+	mapOfTest.push_back(new type_ArgsParser("event_test",this,&test_runner::_RunTestET));//1
+	mapOfTest.push_back(new type_ArgsParser("abt",this,&test_runner::_RunTestABT));//2
+	mapOfTest.push_back(new type_ArgsParser("alpha_blending_test",this,&test_runner::_RunTestABT));//3
+	mapOfTest.push_back(new type_ArgsParser("temp",this,&test_runner::_RunTest,666));//4
+	mapOfTest.push_back(new type_ArgsParser("-h",this,&test_runner::_PrintHelp));//5
+	mapOfTest.push_back(new type_ArgsParser("--help",this,&test_runner::_PrintHelp));//6
+	mapOfTest.push_back(new type_ArgsParser("-v",this,&test_runner::_PrintVersion));//7
+	mapOfTest.push_back(new type_ArgsParser("--version",this,&test_runner::_PrintVersion));//8
+	//mapOfTest.push_back(new )
 }
 
 void test_runner::runSelectedTests(){
+	cout<<"Registered Elements: "<<mapOfTest.size()<<endl;
 	for(type_vectorConstChar::iterator it = ++list_argv.begin(); it!= list_argv.end(); it++){/*
 			if(std::strcmp(mapOfTest[4],*it) == 0){
 				cout<<"it: "<<*it<<endl;
@@ -47,14 +49,14 @@ void test_runner::runSelectedTests(){
 				cout<<*(Xarg.begin())<<endl;
 			}*/
 		for (type_ArgsParserVector::iterator itt = mapOfTest.begin(); itt != mapOfTest.end(); itt++)
-			itt->parseArg(*it);
+			(*itt)->parseArg(*it);
 	}
+	std::for_each(mapOfTest.begin(),mapOfTest.end(),deleteContent_MapOfTest);
 }
 
 void test_runner::_PrintHelp(){
 	cout<<"Available test and options are: "<<endl;
-	for (type_ArgsParserVector::iterator it = mapOfTest.begin(); it != mapOfTest.end(); ++it)
-		cout << *it << endl;
+	std::for_each(mapOfTest.begin(),mapOfTest.end(),printInfromation_MapOfTest);
 }
 
 void test_runner::_PrintVersion(){
@@ -63,9 +65,9 @@ void test_runner::_PrintVersion(){
 
 template <class T>
 void test_runner::_RunTest(T i){
-	//T *obj = new T;
-	//obj->run();
-	//delete obj;
+	/*T *obj = new T;
+	obj->run();
+	delete obj;*/
 	cout<<"int: "<<i<<endl;
 }
 ///FIXME temporary solution

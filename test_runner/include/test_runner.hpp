@@ -13,6 +13,7 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
+#include <algorithm>
 
 #include "../../libsdltest/include/event_test.hpp"
 #include "../../libsdltest/include/alpha_blending.hpp"
@@ -36,9 +37,11 @@ struct print{
 	delete obj;
 
 class test_runner{
-	typedef std::vector<const char*>type_vectorConstChar;
+	typedef std::vector<const char*>type_vectorConstChar;/*
 	typedef ArgsHandler<test_runner,const char*> type_ArgsParser;
-	typedef std::vector<type_ArgsParser > type_ArgsParserVector;
+	typedef std::vector<type_ArgsParser > type_ArgsParserVector;*/
+	typedef std::vector<ArgsHandler*> type_ArgsParserVector;
+	typedef ArgsHandlerImpl<test_runner,const char*> type_ArgsParser;
 	public:
 		test_runner(int &argc, char **argv);
 		~test_runner();
@@ -58,5 +61,15 @@ class test_runner{
 		void _RunTestET();
 		void _RunTestABT();
 };
+
+
+inline void deleteContent_MapOfTest(ArgsHandler *p){
+	delete p;
+}
+
+inline void printInfromation_MapOfTest(ArgsHandler *p){
+	p->printInformation();
+}
+
 
 #endif /* TEST_RUNNER_HPP_ */
