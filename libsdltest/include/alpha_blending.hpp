@@ -21,9 +21,9 @@
 using std::cout;
 using std::endl;
 
-#define ALPHAFILE_PNG 	"../data/bitmaps/alpha.png"
-#define NOALPHAFILE 	"../data/bitmaps/noalpha.bmp"
-#define BACKGROUND 		"../data/bitmaps/background.bmp"
+#define ALPHAFILE_PNG 	"../data/bitmaps/alpha/alpha.png"
+#define NOALPHAFILE 	"../data/bitmaps/alpha/noalpha.bmp"
+#define BACKGROUND 		"../data/bitmaps/alpha/background.bmp"
 
 class alpha_blending: public _sdl_window{
 	public:
