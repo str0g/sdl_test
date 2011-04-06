@@ -21,7 +21,9 @@ struct smartSurface{
 	smartSurface(SDL_Surface*);
 	smartSurface();
 	~smartSurface();
-	void operator=(SDL_Surface*);
+	inline void operator=(SDL_Surface*);
+	void loadAnyImage(const char*);
+	SDL_Surface *operator->();
 	friend std::ostream &operator<<(std::ostream &out, const smartSurface &sS);
 };
 

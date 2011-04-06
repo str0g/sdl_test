@@ -13,7 +13,7 @@ inline SDL_Surface *getSurfaceCopy(SDL_Surface *_surface){
 
 smartSurface::smartSurface(const char* ccPath): sdlSurface(IMG_Load(ccPath)){
 	if(!sdlSurface)
-		msg(SDL_GetError());
+		msg(SDL_GetError())
 }
 smartSurface::smartSurface(SDL_Surface * _surface): sdlSurface(_surface){
 	if(!sdlSurface)
@@ -25,10 +25,19 @@ smartSurface::smartSurface(): sdlSurface(NULL){
 smartSurface::~smartSurface(){
 	SDL_FreeSurface(sdlSurface);
 }
-void smartSurface::operator=(SDL_Surface *_surface){
+inline void smartSurface::operator=(SDL_Surface *_surface){
 	SDL_FreeSurface(sdlSurface);
 	sdlSurface =  _surface; //SDL_ConvertSurface(_surface, _surface->format, SDL_SWSURFACE);
 }
+
+void smartSurface::loadAnyImage(const char *path){
+	if(sdlSurface)
+		SDL_FreeSurface(sdlSurface);
+	sdlSurface = IMG_Load(path);
+	if(!sdlSurface)
+		msg(SDL_GetError())
+}
+
 
 std::ostream &operator<<(std::ostream &out,const smartSurface &Ss){
 	if(Ss.sdlSurface){
@@ -40,4 +49,9 @@ std::ostream &operator<<(std::ostream &out,const smartSurface &Ss){
 		out<<"surface(null)";
 	}
 	return out;
+}
+
+
+SDL_Surface *smartSurface::operator->(){
+	return sdlSurface;
 }
