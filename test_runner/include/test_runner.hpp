@@ -17,13 +17,13 @@
 
 #include "../../libsdltest/include/event_test.hpp"
 #include "../../libsdltest/include/alpha_blending.hpp"
+#include "../../libsdltest/include/_100penguins.hpp"
 #include "../../libsdltest/src/temp.cpp"
 #include "ArgsHandler.hpp"
 
 using std::cout;
 using std::cerr;
 using std::endl;
-
 
 struct print{
 	void printz(){
@@ -55,11 +55,12 @@ class test_runner{
 		void fillMapOfTest();
 		void _PrintHelp();
 		void _PrintVersion();
-		template <class T>
+		template <typename T>
 		void _RunTest(T);
 		///FIXME temporary solution
 		void _RunTestET();
 		void _RunTestABT();
+		void _RunTest100Penguins();
 };
 
 

@@ -30,7 +30,10 @@ void test_runner::fillMapOfTest(){
 	mapOfTest.push_back(new type_ArgsParser("event_test",this,&test_runner::_RunTestET));//1
 	mapOfTest.push_back(new type_ArgsParser("abt",this,&test_runner::_RunTestABT));//2
 	mapOfTest.push_back(new type_ArgsParser("alpha_blending_test",this,&test_runner::_RunTestABT));//3
-	mapOfTest.push_back(new type_ArgsParser("temp",this,&test_runner::_RunTest,666));//4
+	mapOfTest.push_back(new type_ArgsParser("100p",this,&test_runner::_RunTest100Penguins));//4
+	mapOfTest.push_back(new type_ArgsParser("100penguins_test",this,&test_runner::_RunTest100Penguins));//5
+	//mapOfTest.push_back(new type_ArgsParser("temp",this,&test_runner::_RunTest,666));//4
+	//mapOfTest.push_back(new ArgsHandlerImpl<test_runner,const char*,event_test>("temp",this,&test_runner::_RunTest(event_test)));
 	mapOfTest.push_back(new type_ArgsParser("-h",this,&test_runner::_PrintHelp));//5
 	mapOfTest.push_back(new type_ArgsParser("--help",this,&test_runner::_PrintHelp));//6
 	mapOfTest.push_back(new type_ArgsParser("-v",this,&test_runner::_PrintVersion));//7
@@ -63,12 +66,12 @@ void test_runner::_PrintVersion(){
 	cout<<"Version:"<<endl;
 }
 
-template <class T>
-void test_runner::_RunTest(T i){
-	/*T *obj = new T;
+template <typename T>
+void test_runner::_RunTest(T){
+	T *obj = new T;
 	obj->run();
-	delete obj;*/
-	cout<<"int: "<<i<<endl;
+	delete obj;
+	//cout<<"int: "<<i<<endl;
 }
 ///FIXME temporary solution
 void test_runner::_RunTestET(){
@@ -77,6 +80,10 @@ void test_runner::_RunTestET(){
 
 void test_runner::_RunTestABT(){
 	RUNNER(alpha_blending)
+}
+
+void test_runner::_RunTest100Penguins(){
+	RUNNER(_100penguins)
 }
 
 void test_runner::printX(){
