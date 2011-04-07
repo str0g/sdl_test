@@ -1,10 +1,12 @@
 CXX=../g++
 CURRENT_DIR := $(shell pwd)
 SOURCE_DIR := $(CURRENT_DIR)/src
-$(OUTPUT_PATH_SRC)/%.o: $(SOURCE_DIR)/%.cpp
+INCLUDE_DIR := $(CURRENT_DIR)/include
+
+$(OUTPUT_PATH_SRC)/%.o: $(SOURCE_DIR)/%.cpp $(INCLUDE_DIR)/%.hpp 
 	@mkdir -p $(OUTPUT_PATH_SRC)
 	$(CXX) $(CPPFLAGS) -c $< -o $@
-#Experimental
-../out/include/%.o: include/%.hpp
-	@mkdir -p ../out/include
-	$(CXX) $(CPPFLAGS) $(LDFLAGS) -c $< -o $@
+
+$(OUTPUT_PATH_SRC)/%.o: $(SOURCE_DIR)/%.cpp 
+	@mkdir -p $(OUTPUT_PATH_SRC)
+	$(CXX) $(CPPFLAGS) -c $< -o $@
