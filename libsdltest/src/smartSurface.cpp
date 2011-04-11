@@ -24,7 +24,7 @@ smartSurface::smartSurface(): sdlSurface(NULL),bClean(true){
 	msg("Initializing empty surface");
 }
 smartSurface::~smartSurface(){
-	if(bClean != true){
+	if(bClean){
 		msg("cleaning")
 		SDL_FreeSurface(sdlSurface);
 	}

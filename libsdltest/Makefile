@@ -1,4 +1,4 @@
-CPPFLAGS=-Wall -shared -fPIC -Wl,-export-dynamic -std=c++0x -g#-O2 -Werror
+CPPFLAGS=-Wall -shared -fPIC -Wl,-export-dynamic -g #-std=c++0x-O2 -Werror
 
 OUTPUT_PATH := ../out
 TARGET_NAME = libsdltest.so
