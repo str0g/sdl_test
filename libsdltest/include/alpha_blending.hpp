@@ -11,6 +11,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <cstdio>
+#include <cassert>
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 

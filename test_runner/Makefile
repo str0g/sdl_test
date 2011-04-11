@@ -1,4 +1,4 @@
-CPPFLAGS=-Wall -g -std=c++0x#-Werror 
+CPPFLAGS=-Wall -g#-Werror 
 
 OUTPUT_PATH=../out
 TARGET_NAME = test_runner

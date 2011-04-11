@@ -22,34 +22,33 @@ alpha_blending::~alpha_blending(){
 
 void alpha_blending::run(){
 	cout<<"Running"<<endl;
-	if(setVideoMode(600,400,24)){
-		this->drawBackground();
-		/** Draw the first image, which has an alpha
-		* channel. We must specifically enable alpha
-		* blending. */
-		this->drawAlpha(image_with_alpha.sdlSurface,0,20,128);
-		/** Draw the second image, which has no alpha
-		* channel. Instead, we will set a 50% transparency
-		* factor for the entire surface. */
-		this->drawAlpha(image_without_alpha.sdlSurface,280,200,128);
+	assert(setVideoMode(600,400,24));
+	drawBackground();
+	/** Draw the first image, which has an alpha
+	* channel. We must specifically enable alpha
+	* blending. */
+	drawAlpha(image_with_alpha.sdlSurface,0,20,128);
+	/** Draw the second image, which has no alpha
+	* channel. Instead, we will set a 50% transparency
+	* factor for the entire surface. */
+	drawAlpha(image_without_alpha.sdlSurface,280,200,128);
 
-		this->redraw();
-	}
+	redraw();
 }
 
 void alpha_blending::drawBackground(){
 	/** Draw the background. */
-	if(!background.sdlSurface)
+	if(background.isNULL())
 		return;
-	msg("Background size "<<background.sdlSurface->w<<"x"<<background.sdlSurface->h)
+	msg("Background size "<<background->w<<"x"<<background->h)
 	src.x = 0;
 	src.y = 0;
-	src.w = background.sdlSurface->w;
-	src.h = background.sdlSurface->h;
+	src.w = background->w;
+	src.h = background->h;
 	dest.x = 0;
 	dest.y = 0;
-	dest.w = background.sdlSurface->w;
-	dest.h = background.sdlSurface->h;
+	dest.w = background->w;
+	dest.h = background->h;
 	SDL_BlitSurface(background.sdlSurface, &src, screen.sdlSurface, &dest);
 }
 

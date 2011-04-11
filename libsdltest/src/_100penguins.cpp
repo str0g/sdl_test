@@ -9,11 +9,17 @@
 
 #include "../include/_100penguins.hpp"
 
-_100penguins::_100penguins():background(PENGUIN_BACKGROUND){
+_100penguins::_100penguins(){
+	/* Initialize the penguin position data. */
+	assert(setVideoMode(800,600,24,0));
+	init_penguins();
+}
+
+_100penguins::~_100penguins(){
+
 }
 
 void _100penguins::init_penguins(){
-	assert(screen.sdlSurface!=NULL);
 	for (int i = 0; i < NUM_PENGUINS; i++) {
 		penguins[i].x = rand() % screen->w;
 		penguins[i].y = rand() % screen->h;
@@ -29,9 +35,9 @@ void _100penguins::move_penguins(){
 		penguins[i].x += penguins[i].dx;
 		penguins[i].y += penguins[i].dy;
 		/* Turn the penguin around if it hits the edge of the screen. */
-		if (penguins[i].x < 0 || penguins[i].x > screen->w - 1)
+		if (penguins[i].x < intPenguinsOffsetX || penguins[i].x + intPenguinsOffsetX > screen->w - 1)
 			penguins[i].dx = -penguins[i].dx;
-		if (penguins[i].y < 0 || penguins[i].y > screen->h - 1)
+		if (penguins[i].y < intPenguinsOffsetY || penguins[i].y + intPenguinsOffsetY > screen->h - 1)
 			penguins[i].dy = -penguins[i].dy;
 	}
 }
@@ -51,8 +57,8 @@ void _100penguins::draw_penguins(SDL_Surface *sdlsurface){
 		/* The penguin’s position specifies its
 		center. We subtract half of its width
 		and height to get its upper left corner. */
-		dest.x = penguins[i].x - sdlsurface->w / 2;
-		dest.y = penguins[i].y - sdlsurface->h / 2;
+		dest.x = penguins[i].x - intPenguinsOffsetX;
+		dest.y = penguins[i].y - intPenguinsOffsetY;
 		dest.w = sdlsurface->w;
 		dest.h = sdlsurface->h;
 		SDL_BlitSurface(sdlsurface, &src, screen.sdlSurface, &dest);
@@ -63,8 +69,12 @@ void _100penguins::draw_penguins(SDL_Surface *sdlsurface){
 void _100penguins::run(){
 	SDL_Rect src, dest;
 	time_t start,end;
-	penguinAlfa.loadAnyImage(PENGUIN_ALPHA);
-	penguinNoAlfa.loadAnyImage(PENGUIN_NOALPHA);
+
+	smartSurface background(PENGUIN_BACKGROUND);
+	smartSurface penguinAlfa(PENGUIN_ALPHA);
+	smartSurface penguinNoAlfa(PENGUIN_NOALPHA);
+
+
 	/* Set the penguin’s colorkey. */
 	SDL_SetColorKey(penguinAlfa.sdlSurface,
 			SDL_SRCCOLORKEY,
@@ -74,10 +84,9 @@ void _100penguins::run(){
 			SDL_SRCCOLORKEY,
 			(Uint16) SDL_MapRGB(penguinAlfa->format,
 					0, 0, 0));
-	/* Initialize the penguin position data. */
-	setVideoMode(800,600,24,0);
-	init_penguins();
 	/* Animate 300 frames (approximately 10 seconds). */
+	intPenguinsOffsetX = penguinAlfa->w/2;
+	intPenguinsOffsetY = penguinAlfa->h/2;
 	time (&start);
 	for (int frames = 0; frames < MAX_FRAMES; frames++) {
 		/* Draw the background image. */
@@ -99,7 +108,7 @@ void _100penguins::run(){
 		move_penguins();
 	}
 	time (&end);
-	//std::cout.setf(0,std::ios::floatfield);
+	std::cout.setf(std::ios::adjustfield,std::ios::floatfield);
 	std::cout.precision(FLOAT_PRECISION);
 	msg(MAX_FRAMES<<" frames has been rendered in:"<<difftime(end,start)<<"s , rendered speed: "<<MAX_FRAMES/difftime(end,start)<<"fps");
 }

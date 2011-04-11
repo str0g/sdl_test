@@ -15,14 +15,26 @@
 
 #include "common_dev.hpp"
 
+//Universal methods
+inline SDL_Surface *getSurfaceCopy(SDL_Surface *);
+
 struct smartSurface{
+	//variable
 	SDL_Surface *sdlSurface;
+	bool bClean;
+	//constructors
 	smartSurface(const char*);
 	smartSurface(SDL_Surface*);
 	smartSurface();
 	~smartSurface();
-	inline void operator=(SDL_Surface*);
+	//is
+	bool isNULL();
+	//set
+	void setCleanFlag();
+	//methods
 	void loadAnyImage(const char*);
+	//operators
+	void operator=(SDL_Surface*);
 	SDL_Surface *operator->();
 	friend std::ostream &operator<<(std::ostream &out, const smartSurface &sS);
 };

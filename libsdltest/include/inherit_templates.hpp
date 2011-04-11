@@ -22,7 +22,7 @@ class _sdl_window{
 		virtual bool setVideoMode(int iWidth=320,int iHight=200, int iBitColor=24,int iUnknow=SDL_HWSURFACE|SDL_DOUBLEBUF);
 		virtual void run();
 		virtual void EventLoop();
-		//virtual ~_sdl_window();
+		virtual ~_sdl_window();
 	protected:
 		smartSurface screen;
 		SDL_Event event;
